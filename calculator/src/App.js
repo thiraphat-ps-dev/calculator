@@ -1,4 +1,4 @@
-/* eslint-disable radix */
+/* eslint-disable no-eval */
 
 import React from 'react';
 import styled from 'styled-components';
@@ -27,7 +27,7 @@ const OperatorContainer = styled.View`
 
 const TextResult = styled.Text`
   color: #ffffff;
-  font-size: 50px;
+  font-size: 60px;
 `;
 
 const ButtonOperator = styled.TouchableHighlight`
@@ -55,29 +55,37 @@ const RowContainer = styled.View`
 `;
 
 export default function App() {
-  const [] = React.useState(0);
-  const [] = React.useState(0);
-  const [clear, setClear] = React.useState(false);
-  const [sumList, setSumList] = React.useState([]);
-  const [count, setCount] = React.useState('');
-  const [] = React.useState('');
+  const [equation, setEquation] = React.useState('');
+
+  const updateEquation = (value) => {
+    setEquation(equation + value);
+  };
+
+  const getPercentage = (value) => {
+    try {
+      setEquation(eval(value) / 100);
+    } catch (error) {
+      setEquation('Error');
+    }
+  };
+  const getAnswer = () => {
+    try {
+      setEquation(eval(equation));
+    } catch (error) {
+      setEquation('Error');
+    }
+  };
 
   return (
     <CalculatorContainer>
       <ResultContainer>
-        <TextResult>
-          {count || 0}
-          {/* {JSON.stringify(sumList)}
-          {clear.toString()} */}
-        </TextResult>
+        <TextResult>{equation || 0}</TextResult>
       </ResultContainer>
       <OperatorContainer>
         <RowContainer>
           <ButtonOperator
             onPress={() => {
-              setCount('');
-              setSumList([]);
-              setClear(false);
+              setEquation('');
             }}
             bgColor={'#636363'}>
             <TextOperator>AC</TextOperator>
@@ -85,121 +93,80 @@ export default function App() {
           <ButtonOperator bgColor={'#636363'}>
             <TextOperator
               onPress={() => {
-                setCount(count.slice(0, -1));
+                setEquation(
+                  equation.length !== 0 ? equation.slice(0, -1) : equation,
+                );
               }}>
               DEL
             </TextOperator>
           </ButtonOperator>
-          <ButtonOperator bgColor={'#636363'}>
+          <ButtonOperator
+            onPress={() => {
+              getPercentage(equation);
+            }}
+            bgColor={'#636363'}>
             <TextOperator>%</TextOperator>
           </ButtonOperator>
-          <ButtonOperator bgColor={'#FA9F00'}>
+          <ButtonOperator
+            onPress={() => {
+              updateEquation('/');
+            }}
+            bgColor={'#FA9F00'}>
             <TextOperator>÷</TextOperator>
           </ButtonOperator>
         </RowContainer>
         <RowContainer>
+          {[7, 8, 9].map((item, index) => (
+            <ButtonOperator
+              key={index}
+              onPress={() => {
+                updateEquation(item);
+              }}
+              bgColor={'#8A8A8A'}>
+              <TextOperator>{item}</TextOperator>
+            </ButtonOperator>
+          ))}
           <ButtonOperator
             onPress={() => {
-              clear
-                ? (setCount('7'), setClear(false))
-                : setCount((prevCount) => prevCount + '7');
+              updateEquation('*');
             }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>7</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('8'), setClear(false))
-                : setCount((prevCount) => prevCount + '8');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>8</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('9'), setClear(false))
-                : setCount((prevCount) => prevCount + '9');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>9</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator bgColor={'#FA9F00'}>
+            bgColor={'#FA9F00'}>
             <TextOperator>x</TextOperator>
           </ButtonOperator>
         </RowContainer>
         <RowContainer>
+          {[4, 5, 6].map((item, index) => (
+            <ButtonOperator
+              key={index}
+              onPress={() => {
+                updateEquation(item);
+              }}
+              bgColor={'#8A8A8A'}>
+              <TextOperator>{item}</TextOperator>
+            </ButtonOperator>
+          ))}
           <ButtonOperator
             onPress={() => {
-              clear
-                ? (setCount('4'), setClear(false))
-                : setCount((prevCount) => prevCount + '4');
+              updateEquation('-');
             }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>4</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('5'), setClear(false))
-                : setCount((prevCount) => prevCount + '5');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>5</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('6'), setClear(false))
-                : setCount((prevCount) => prevCount + '6');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>6</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator onPress={() => {}} bgColor={'#FA9F00'}>
+            bgColor={'#FA9F00'}>
             <TextOperator>-</TextOperator>
           </ButtonOperator>
         </RowContainer>
         <RowContainer>
+          {[1, 2, 3].map((item, index) => (
+            <ButtonOperator
+              key={index}
+              onPress={() => {
+                updateEquation(item);
+              }}
+              bgColor={'#8A8A8A'}>
+              <TextOperator>{item}</TextOperator>
+            </ButtonOperator>
+          ))}
           <ButtonOperator
             onPress={() => {
-              clear
-                ? (setCount('1'), setClear(false))
-                : setCount((prevCount) => prevCount + '1');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>1</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('2'), setClear(false))
-                : setCount((prevCount) => prevCount + '2');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>2</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              clear
-                ? (setCount('3'), setClear(false))
-                : setCount((prevCount) => prevCount + '3');
-            }}
-            bgColor={'#8A8A8A'}>
-            <TextOperator>3</TextOperator>
-          </ButtonOperator>
-          <ButtonOperator
-            onPress={() => {
-              setSumList([...sumList, parseInt(count)]);
-
-              let s = 0;
-              sumList.map((v) => {
-                s += v;
-              });
-              setCount(s + parseInt(count));
-              setSumList([s + parseInt(count)]);
-              setClear(true);
+              updateEquation('+');
             }}
             bgColor={'#FA9F00'}>
             <TextOperator>+</TextOperator>
@@ -208,25 +175,22 @@ export default function App() {
         <RowContainer>
           <ButtonOperator
             onPress={() => {
-              clear
-                ? (setCount('0'), setClear(false))
-                : setCount((prevCount) => prevCount + '0');
+              updateEquation('0');
             }}
             bWidth={'50%'}
             bgColor={'#8A8A8A'}>
             <TextOperator>0</TextOperator>
           </ButtonOperator>
-          <ButtonOperator bgColor={'#8A8A8A'}>
+          <ButtonOperator
+            onPress={() => {
+              updateEquation('.');
+            }}
+            bgColor={'#8A8A8A'}>
             <TextOperator>.</TextOperator>
           </ButtonOperator>
           <ButtonOperator
             onPress={() => {
-              let s = 0;
-              sumList.map((v) => {
-                s += v;
-              });
-              setCount(s + parseInt(count));
-              setSumList([]);
+              getAnswer();
             }}
             bgColor={'#FA9F00'}>
             <TextOperator>=</TextOperator>
