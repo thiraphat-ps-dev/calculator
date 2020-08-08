@@ -1,6 +1,6 @@
 # calculator
 
-Calculator App With ReactNative & styled-components
+Calculator App With ReactNative & styled-components & React Hook
 
 ### Preview
 
